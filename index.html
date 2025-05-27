@@ -2,8 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SongTrybe Contracts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SongTrybe Contracts - Professional Agreements for Music Industry</title>
+    <meta name="description" content="SongTrybe provides professional contracts for A&R, dancers, MCs, and general music industry professionals. Generate, sign, and share contracts easily.">
+    <meta name="keywords" content="music contracts, A&R contract, dancer contract, MC contract, music industry, SongTrybe, digital signature">
+    <meta name="author" content="SongTrybe">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://songtrybe.com/contracts/">
+    <meta property="og:title" content="SongTrybe Contracts - Professional Agreements for Music Industry">
+    <meta property="og:description" content="Generate, sign, and share professional contracts for A&R, dancers, MCs, and other music industry professionals.">
+    <meta property="og:image" content="https://songtrybe.com/images/songtrybe-contracts-og.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://songtrybe.com/contracts/">
+    <meta property="twitter:title" content="SongTrybe Contracts - Professional Agreements for Music Industry">
+    <meta property="twitter:description" content="Generate, sign, and share professional contracts for A&R, dancers, MCs, and other music industry professionals.">
+    <meta property="twitter:image" content="https://songtrybe.com/images/songtrybe-contracts-og.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -217,6 +241,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 95%;
+            }
+        }
         .modal-header {
             margin-bottom: 20px;
             text-align: center;
@@ -337,9 +367,32 @@
             margin-top: auto;
         }
         
+        /* Enhanced Responsive Styles */
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            header p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                max-width: 450px;
+            }
+        }
+        
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
             }
             
             .cards-container {
@@ -347,6 +400,52 @@
                 max-width: 400px;
                 margin-left: auto;
                 margin-right: auto;
+            }
+            
+            .card-title {
+                font-size: 1.4rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                max-width: 90%;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .card-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .card-buttons .btn {
+                margin: 5px 0;
+                width: 100%;
+            }
+            
+            .modal-content {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            
+            .share-link {
+                font-size: 0.9rem;
             }
         }
     </style>
