@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songtrybe MC Participation & Marketing Agreement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #6c7b7f 0%, #485563 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6c7b7f, #485563);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6c7b7f 0%, #485563 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-section {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 20px 0;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .form-section.active {
+            border-color: #6c7b7f;
+            box-shadow: 0 4px 12px rgba(108, 123, 127, 0.15);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #6c7b7f 0%, #485563 100%);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #5a676b 0%, #3c4a57 100%);
+        }
+
+        .expand-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 20px;
+            background: white;
+            display: none;
+        }
+
+        .section-content.expanded {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6c7b7f;
+            box-shadow: 0 0 0 3px rgba(108, 123, 127, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .services-table,
+        .terms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .services-table th,
+        .services-table td,
+        .terms-table th,
+        .terms-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .services-table th,
+        .terms-table th {
+            background: linear-gradient(135deg, #6c7b7f 0%, #485563 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .services-table tr:nth-child(even),
+        .terms-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .signature-section {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border-radius: 8px;
+            margin: 30px 0;
+            padding: 20px;
+        }
+
+        .signature-canvas {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: crosshair;
+            margin: 10px 0;
+        }
+
+        .canvas-controls {
+            margin: 10px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #6c7b7f 0%, #485563 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 123, 127, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .completion-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: bold;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .step.active {
+            background: #6c7b7f;
+        }
+
+        .step.completed {
+            background: #4caf50;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="header">
+            <h1>SONGTRYBE MC PARTICIPATION & MARKETING AGREEMENT</h1>
+            <p>Master of Ceremony Digital Contract Acceptance Form</p>
+        </div>
+
+        <div class="completion-status" id="completionStatus">
+            Progress: <span id="progressText">0%</span>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active" id="step1">1</div>
+            <div class="step" id="step2">2</div>
+            <div class="step" id="step3">3</div>
+            <div class="step" id="step4">4</div>
+        </div>
+
+        <form class="form-container" id="contractForm">
+            <div class="alert alert-warning">
+                <strong>Important:</strong> Please read each section carefully and fill out all required information. You can expand/collapse sections by clicking on the headers.
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="form-section active" id="section1">
+                <div class="section-header" onclick="toggleSection(1)">
+                    1. Personal Information
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content expanded">
+                    <div class="form-group">
+                        <label for="mcName">Full Name *</label>
+                        <input type="text" id="mcName" name="mcName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stageName">Stage/Professional Name (if different)</label>
+                        <input type="text" id="stageName" name="stageName">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location (City, State)</label>
+                        <input type="text" id="location" name="location">
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Years of MC/Host Experience</label>
+                        <select id="experience" name="experience">
+                            <option value="">Select...</option>
+                            <option value="0-1">0-1 years</option>
+                            <option value="1-3">1-3 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="5-10">5-10 years</option>
+                            <option value="10+">10+ years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="specialties">MC Specialties (Check all that apply)</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <label><input type="checkbox" name="specialty" value="weddings"> Weddings</label>
+                            <label><input type="checkbox" name="specialty" value="corporate"> Corporate Events</label>
+                            <label><input type="checkbox" name="specialty" value="nightlife"> Nightlife/Clubs</label>
+                            <label><input type="checkbox" name="specialty" value="festivals"> Music Festivals</label>
+                            <label><input type="checkbox" name="specialty" value="private"> Private Parties</label>
+                            <label><input type="checkbox" name="specialty" value="charity"> Charity Events</label>
+                            <label><input type="checkbox" name="specialty" value="awards"> Award Shows</label>
+                            <label><input type="checkbox" name="specialty" value="other"> Other Events</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services & Benefits Section -->
+            <div class="form-section" id="section2">
+                <div class="section-header" onclick="toggleSection(2)">
+                    2. Services & Benefits Overview
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p><strong>Songtrybe will provide the following benefits at no cost:</strong></p>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Description</th>
+                                <th>Accept</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Free MC Profile Listing</strong></td>
+                                <td>Featured on Songtrybe website directory with MC specialties</td>
+                                <td><input type="checkbox" name="service1" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Targeted Marketing Support</strong></td>
+                                <td>Inclusion in campaigns targeting event planners, wedding coordinators, and corporate clients</td>
+                                <td><input type="checkbox" name="service2" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MC Booking Opportunities</strong></td>
+                                <td>Referrals for hosting gigs at Songtrybe-affiliated events and client requests</td>
+                                <td><input type="checkbox" name="service3" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Event Host Network</strong></td>
+                                <td>Exclusive SMS & email notifications for high-profile hosting opportunities</td>
+                                <td><input type="checkbox" name="service4" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brand Partnership Opportunities</strong></td>
+                                <td>Co-branded content creation and social media features as featured host</td>
+                                <td><input type="checkbox" name="service5" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Event Performance Analytics</strong></td>
+                                <td>Access to hosting data, client feedback, and event success metrics</td>
+                                <td><input type="checkbox" name="service6"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Professional Development</strong></td>
+                                <td>Access to MC training resources, script templates, and industry best practices</td>
+                                <td><input type="checkbox" name="service7"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Complete Contract Terms Section -->
+            <div class="form-section" id="section3">
+                <div class="section-header" onclick="toggleSection(3)">
+                    3. Complete Contract Terms & Conditions
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-warning">
+                        <strong>Please review all 9 sections of the MC contract below:</strong>
+                    </div>
+
+                    <!-- Section 1: Purpose -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            1. Purpose
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement outlines the collaboration between Songtrybe and the Master of Ceremony (MC) for event hosting, marketing, and platform visibility. It provides mutual value through exposure, hosting opportunities, and co-branded promotional activities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Services -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            2. Services Provided by Songtrybe
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><em>Detailed in Section 2 above - includes MC Profile Listing, Targeted Marketing, Booking Opportunities, Event Host Network, Brand Partnerships, Performance Analytics, and Professional Development resources.</em></p>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Use of Name, Likeness, and Content -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            3. Use of Name, Likeness, and Content
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>The MC grants Songtrybe a royalty-free, worldwide, non-exclusive right to:</p>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Display the MC's name, image, biography, hosting specialties, and branding on Songtrybe's platforms.</li>
+                                <li>Use the MC's likeness in marketing materials, event promotions, and press campaigns targeting event planners.</li>
+                                <li>Feature any submitted content (e.g., hosting demos, event videos, testimonials) on Songtrybe's digital channels.</li>
+                                <li>Include MC's professional credentials and client testimonials in promotional materials.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Referral & Incentive Program -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            4. Referral & Incentive Program
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><strong>MC Referrals:</strong> MCs who refer event venues, other hosts, or entertainment professionals that join Songtrybe may receive bonuses (e.g., $75 per successful referral or priority booking status).</p>
+                            <p><strong>Featured Host Opportunities:</strong> Top-performing MCs may be featured in Songtrybe editorial content, hosting showcases, or branded event campaigns.</p>
+                            <p><strong>Performance Bonuses:</strong> MCs with exceptional client feedback may receive additional promotional support and premium listing features.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Expectations & Responsibilities -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            5. Expectations & Responsibilities
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>MCs agree to keep their profile, availability, and specialties current and accurate.</li>
+                                <li>Songtrybe agrees to use reasonable efforts to promote listed MCs but does not guarantee any specific number of bookings or events.</li>
+                                <li>MCs must maintain professional hosting standards when representing Songtrybe, including punctuality, appropriate attire, engaging presentation, and adherence to event requirements.</li>
+                                <li>MCs agree to provide professional-quality hosting services and maintain positive client relationships.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Section 6: Ownership & Rights -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            6. Ownership & Rights
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><strong>MC retains all ownership rights</strong> to their content, scripts, and professional branding materials.</p>
+                            <p><strong>Songtrybe has limited promotional rights</strong> for submitted hosting materials and professional content for the term of this Agreement.</p>
+                            <p><strong>Client relationships</strong> developed through Songtrybe referrals remain the property of both parties for future collaboration.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Term & Termination -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            7. Term & Termination
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement is effective upon signature and remains active unless terminated by either party with <strong>14 days' written notice</strong>.</p>
+                            <p><strong>Upon termination:</strong> Songtrybe will remove the MC's profile and stop using their content in new marketing campaigns. Previously published content may remain for historical or platform integrity purposes.</p>
+                            <p><strong>Ongoing events:</strong> Any confirmed bookings at time of termination will be honored by both parties.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 8: Non-Circumvention -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            8. Non-Circumvention
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>MC agrees not to bypass Songtrybe in any direct deals resulting from Songtrybe-originated client introductions or event referrals without prior written consent.</p>
+                            <p>For any direct bookings resulting from Songtrybe referrals, MC agrees to notify Songtrybe and optionally share a <strong>12% commission</strong> if the booking was facilitated through the platform.</p>
+                            <p><strong>Exception:</strong> Pre-existing client relationships established before joining Songtrybe are exempt from this clause.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 9: Governing Law -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            9. Governing Law
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement shall be governed and construed in accordance with the laws of the State of <strong>[Insert State]</strong>.</p>
+                            <p>Any disputes arising from this agreement will be resolved through binding arbitration in the selected state.</p>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsAccept" name="termsAccept" required>
+                        <label for="termsAccept">
+                            <strong>I have read and agree to ALL 9 sections of this MC contract</strong>, including the use of my likeness for marketing purposes, professional hosting standards, referral program terms, termination conditions, non-circumvention clause, and commission structure.
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="governingState">Governing State Law *</label>
+                        <select id="governingState" name="governingState" required>
+                            <option value="">Select State...</option>
+                            <option value="Alabama">Alabama</option>
+                            <option value="Alaska">Alaska</option>
+                            <option value="Arizona">Arizona</option>
+                            <option value="Arkansas">Arkansas</option>
+                            <option value="California">California</option>
+                            <option value="Colorado">Colorado</option>
+                            <option value="Connecticut">Connecticut</option>
+                            <option value="Delaware">Delaware</option>
+                            <option value="Florida">Florida</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Hawaii">Hawaii</option>
+                            <option value="Idaho">Idaho</option>
+                            <option value="Illinois">Illinois</option>
+                            <option value="Indiana">Indiana</option>
+                            <option value="Iowa">Iowa</option>
+                            <option value="Kansas">Kansas</option>
+                            <option value="Kentucky">Kentucky</option>
+                            <option value="Louisiana">Louisiana</option>
+                            <option value="Maine">Maine</option>
+                            <option value="Maryland">Maryland</option>
+                            <option value="Massachusetts">Massachusetts</option>
+                            <option value="Michigan">Michigan</option>
+                            <option value="Minnesota">Minnesota</option>
+                            <option value="Mississippi">Mississippi</option>
+                            <option value="Missouri">Missouri</option>
+                            <option value="Montana">Montana</option>
+                            <option value="Nebraska">Nebraska</option>
+                            <option value="Nevada">Nevada</option>
+                            <option value="New Hampshire">New Hampshire</option>
+                            <option value="New Jersey">New Jersey</option>
+                            <option value="New Mexico">New Mexico</option>
+                            <option value="New York">New York</option>
+                            <option value="North Carolina">North Carolina</option>
+                            <option value="North Dakota">North Dakota</option>
+                            <option value="Ohio">Ohio</option>
+                            <option value="Oklahoma">Oklahoma</option>
+                            <option value="Oregon">Oregon</option>
+                            <option value="Pennsylvania">Pennsylvania</option>
+                            <option value="Rhode Island">Rhode Island</option>
+                            <option value="South Carolina">South Carolina</option>
+                            <option value="South Dakota">South Dakota</option>
+                            <option value="Tennessee">Tennessee</option>
+                            <option value="Texas">Texas</option>
+                            <option value="Utah">Utah</option>
+                            <option value="Vermont">Vermont</option>
+                            <option value="Virginia">Virginia</option>
+                            <option value="Washington">Washington</option>
+                            <option value="West Virginia">West Virginia</option>
+                            <option value="Wisconsin">Wisconsin</option>
+                            <option value="Wyoming">Wyoming</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Signature Section -->
+            <div class="form-section signature-section" id="section4">
+                <div class="section-header" onclick="toggleSection(4)">
+                    4. Digital Signature & Agreement
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Digital Signature *</label>
+                        <canvas id="signatureCanvas" class="signature-canvas" width="400" height="200"></canvas>
+                        <div class="canvas-controls">
+                            <button type="button" class="btn btn-secondary" onclick="clearSignature()">Clear Signature</button>
+                            <button type="button" class="btn" onclick="saveSignature()">Save Signature</button>
+                        </div>
+                        <p style="font-size: 12px; opacity: 0.8;">Please sign above using your mouse or touch screen</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signatureDate">Date of Signature *</label>
+                        <input type="date" id="signatureDate" name="signatureDate" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="finalAccept" name="finalAccept" required>
+                        <label for="finalAccept" style="color: black;">
+                            <strong>I hereby digitally sign and agree to this Songtrybe MC Participation & Marketing Agreement. I understand that this digital signature has the same legal effect as a handwritten signature.</strong>
+                        </label>
+                    </div>
+
+                    <div class="alert alert-success" id="successMessage" style="display: none;">
+                        <strong>Success!</strong> Your MC agreement has been completed. You will receive a confirmation email shortly.
+                    </div>
+
+                    <button type="submit" class="btn btn-success" id="submitBtn" disabled>
+                        Complete Agreement & Download
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Enhanced Welcome Modal with Slides -->
+    <div id="welcomeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); z-index: 9999;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 12px; width: 90%; max-width: 650px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <span onclick="closeWelcomeModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999;">&times;</span>
+            
+            <!-- Slides Container -->
+            <div id="welcomeSlides">
+                <!-- Slide 1: Welcome -->
+                <div class="welcome-slide" data-slide="1" style="display: block;">
+                    <div style="margin-bottom: 30px;">
+                        <img src="https://placehold.co/120x120/6c7b7f/FFFFFF?text=MC" alt="MC Icon" style="border-radius: 60px;">
+                    </div>
+                    <h2 style="color: #485563; margin-bottom: 20px; font-size: 28px;">Welcome to SongTrybe!</h2>
+                    <p style="margin-bottom: 15px; font-size: 18px;">Hello <span id="welcomeName"></span>,</p>
+                    <p style="margin-bottom: 25px; font-size: 18px; color: #444; line-height: 1.5;">
+                        We're excited to have you join us at SongTrybe! This MC contract has been shared with you to formalize our working relationship.
+                    </p>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #485563; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <button onclick="showWelcomeSlide(2)" style="background: #485563; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Next</button>
+                </div>
+                
+                <!-- Slide 2: Who & Why -->
+                <div class="welcome-slide" data-slide="2" style="display: none;">
+                    <h2 style="color: #485563; margin-bottom: 20px; font-size: 28px;">Who We Are & Why MCs</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <p style="margin-bottom: 15px; font-size: 18px; color: #444; line-height: 1.5;">
+                            <strong style="color: #485563;">Who:</strong> SongTrybe is a platform connecting talented entertainment professionals with opportunities in the music and events industry.
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 18px; color: #444; line-height: 1.5;">
+                            <strong style="color: #485563;">Why MCs:</strong> As a Master of Ceremonies, your skills are essential for creating memorable events, engaging audiences, and ensuring smooth program flow at concerts, festivals, and industry events.
+                        </p>
+                        <p style="font-size: 18px; color: #444; line-height: 1.5;">
+                            This contract establishes our partnership to promote your MC services and connect you with artists and event organizers seeking your specific hosting style.
+                        </p>
+                    </div>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #485563; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button onclick="showWelcomeSlide(1)" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Previous</button>
+                        <button onclick="showWelcomeSlide(3)" style="background: #485563; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Benefits -->
+                <div class="welcome-slide" data-slide="3" style="display: none;">
+                    <h2 style="color: #485563; margin-bottom: 20px; font-size: 28px;">Your Benefits</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #485563; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Featured profile with your hosting style, event experience, and performance videos</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #485563; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Booking referrals for concerts, festivals, corporate events, and award shows</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #485563; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Exclusive notifications for high-profile hosting opportunities</p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #485563; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Industry networking opportunities with event planners, artists, and venues</p>
+                        </div>
+                    </div>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #485563; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button onclick="showWelcomeSlide(2)" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Previous</button>
+                        <button onclick="closeWelcomeModal()" style="background: #485563; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let canvas, ctx, isDrawing = false;
+        let completedSections = 0;
+
+        // Check for name parameter and show welcome modal if present
+        function checkForNameParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipientName = urlParams.get('name');
+            
+            if (recipientName) {
+                // Show welcome modal directly
+                document.getElementById('welcomeName').textContent = recipientName;
+                document.getElementById('welcomeModal').style.display = 'flex';
+                
+                // Reset to first slide
+                showWelcomeSlide(1);
+                
+                // Hide any navigation elements if they exist
+                const backButtons = document.querySelectorAll('a[href="index.html"], button[onclick*="index.html"]');
+                backButtons.forEach(button => {
+                    button.style.display = 'none';
+                });
+            }
+        }
+        
+        // Navigate between welcome modal slides
+        function showWelcomeSlide(slideNumber) {
+            // Hide all slides
+            const slides = document.querySelectorAll('.welcome-slide');
+            slides.forEach(slide => {
+                slide.style.display = 'none';
+            });
+            
+            // Show the requested slide
+            const targetSlide = document.querySelector(`.welcome-slide[data-slide="${slideNumber}"]`);
+            if (targetSlide) {
+                targetSlide.style.display = 'block';
+            }
+        }
+        
+        // Close welcome modal
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSignatureCanvas();
+            updateProgress();
+            setTodayDate();
+            checkForNameParameter();
+            
+            // Add event listeners for form validation
+            document.getElementById('contractForm').addEventListener('input', validateForm);
+            document.getElementById('contractForm').addEventListener('change', validateForm);
+            document.getElementById('contractForm').addEventListener('submit', handleSubmit);
+        });
+
+        function initializeSignatureCanvas() {
+            canvas = document.getElementById('signatureCanvas');
+            ctx = canvas.getContext('2d');
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events
+            canvas.addEventListener('touchstart', startDrawing);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            validateForm();
+        }
+
+        function saveSignature() {
+            // In a real implementation, you would save the signature data
+            alert('Signature saved successfully!');
+        }
+
+        function toggleSection(sectionNum) {
+            const section = document.getElementById(`section${sectionNum}`);
+            const content = section.querySelector('.section-content');
+            const header = section.querySelector('.section-header');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                header.classList.remove('expanded');
+                section.classList.remove('active');
+            } else {
+                content.classList.add('expanded');
+                header.classList.add('expanded');
+                section.classList.add('active');
+            }
+        }
+
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('signatureDate').value = today;
+        }
+
+        function validateForm() {
+            const requiredFields = ['mcName', 'email', 'phone', 'termsAccept', 'governingState', 'signatureDate', 'finalAccept'];
+            let completed = 0;
+            let total = requiredFields.length + 1; // +1 for signature
+
+            // Check required fields
+            requiredFields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                if (field && (field.value || field.checked)) {
+                    completed++;
+                }
+            });
+
+            // Check signature
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const hasSignature = imageData.data.some(channel => channel !== 0);
+            if (hasSignature) completed++;
+
+            // Update progress
+            const percentage = Math.round((completed / total) * 100);
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+
+            // Update step indicators
+            const steps = [25, 50, 75, 100];
+            steps.forEach((step, index) => {
+                const stepEl = document.getElementById(`step${index + 1}`);
+                if (percentage >= step) {
+                    stepEl.classList.add('completed');
+                    stepEl.classList.remove('active');
+                } else if (percentage >= (steps[index - 1] || 0)) {
+                    stepEl.classList.add('active');
+                    stepEl.classList.remove('completed');
+                } else {
+                    stepEl.classList.remove('active', 'completed');
+                }
+            });
+
+            // Enable/disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = percentage < 100;
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            // Generate and download PDF
+            generatePDF();
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('submitBtn').textContent = 'PDF Downloaded Successfully!';
+            document.getElementById('submitBtn').disabled = true;
+
+            setTimeout(() => {
+                alert('Your Songtrybe MC Agreement has been generated and downloaded as a PDF. Please save this document for your records.');
+            }, 1000);
+        }
+
+        function generatePDF() {
+            // Collect form data
+            const formData = {
+                mcName: document.getElementById('mcName').value,
+                stageName: document.getElementById('stageName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                experience: document.getElementById('experience').value,
+                governingState: document.getElementById('governingState').value,
+                signatureDate: document.getElementById('signatureDate').value,
+                signature: canvas.toDataURL(),
+                specialties: Array.from(document.querySelectorAll('input[name="specialty"]:checked')).map(cb => cb.value)
+            };
+
+            // Create PDF content
+            const pdfContent = generatePDFContent(formData);
+            
+            // Create and download PDF
+            const element = document.createElement('a');
+            const file = new Blob([pdfContent], { type: 'text/plain' });
+            element.href = URL.createObjectURL(file);
+            element.download = `Songtrybe_MC_Agreement_${formData.mcName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        function generatePDFContent(data) {
+            return `
+SONGTRYBE MC PARTICIPATION & MARKETING AGREEMENT
+Effective Date: ${data.signatureDate}
+
+PARTIES:
+MC Name: ${data.mcName}
+Stage/Professional Name: ${data.stageName || 'N/A'}
+Email: ${data.email}
+Phone: ${data.phone}
+Location: ${data.location || 'N/A'}
+Experience: ${data.experience || 'N/A'}
+Specialties: ${data.specialties.length ? data.specialties.join(', ') : 'N/A'}
+
+This Agreement is made by and between Songtrybe Inc., a music technology and services platform ("Songtrybe"), and ${data.mcName} ("MC"), collectively referred to as "Parties."
+
+1. PURPOSE
+This Agreement outlines the collaboration between Songtrybe and the Master of Ceremony (MC) for event hosting, marketing, and platform visibility. It provides mutual value through exposure, hosting opportunities, and co-branded promotional activities.
+
+2. SERVICES PROVIDED BY SONGTRYBE
+Songtrybe will provide the following benefits at no cost:
+
+• Free MC Profile Listing: MC will be featured on the Songtrybe website directory with hosting specialties.
+• Targeted Marketing Support: Inclusion in campaigns targeting event planners, wedding coordinators, and corporate clients.
+• MC Booking Opportunities: Referrals for hosting gigs at Songtrybe-affiliated events and client requests.
+• Event Host Network: Exclusive SMS & email notifications for high-profile hosting opportunities.
+• Brand Partnership Opportunities: Co-branded content creation and social media features as featured host.
+• Event Performance Analytics: Access to hosting data, client feedback, and event success metrics.
+• Professional Development: Access to MC training resources, script templates, and industry best practices.
+
+3. USE OF NAME, LIKENESS, AND CONTENT
+The MC grants Songtrybe a royalty-free, worldwide, non-exclusive right to:
+• Display the MC's name, image, biography, hosting specialties, and branding on Songtrybe's platforms.
+• Use the MC's likeness in marketing materials, event promotions, and press campaigns targeting event planners.
+• Feature any submitted content (e.g., hosting demos, event videos, testimonials) on Songtrybe's digital channels.
+• Include MC's professional credentials and client testimonials in promotional materials.
+
+4. REFERRAL & INCENTIVE PROGRAM
+MC Referrals: MCs who refer event venues, other hosts, or entertainment professionals that join Songtrybe may receive bonuses (e.g., $75 per successful referral or priority booking status).
+Featured Host Opportunities: Top-performing MCs may be featured in Songtrybe editorial content, hosting showcases, or branded event campaigns.
+Performance Bonuses: MCs with exceptional client feedback may receive additional promotional support and premium listing features.
+
+5. EXPECTATIONS & RESPONSIBILITIES
+• MCs agree to keep their profile, availability, and specialties current and accurate.
+• Songtrybe agrees to use reasonable efforts to promote listed MCs but does not guarantee any specific number of bookings or events.
+• MCs must maintain professional hosting standards when representing Songtrybe, including punctuality, appropriate attire, engaging presentation, and adherence to event requirements.
+• MCs agree to provide professional-quality hosting services and maintain positive client relationships.
+
+6. OWNERSHIP & RIGHTS
+• MC retains all ownership rights to their content, scripts, and professional branding materials.
+• Songtrybe has limited promotional rights for submitted hosting materials and professional content for the term of this Agreement.
+• Client relationships developed through Songtrybe referrals remain the property of both parties for future collaboration.
+
+7. TERM & TERMINATION
+This Agreement is effective upon signature and remains active unless terminated by either party with 14 days' written notice.
+Upon termination: Songtrybe will remove the MC's profile and stop using their content in new marketing campaigns. Previously published content may remain for historical or platform integrity purposes.
+Ongoing events: Any confirmed bookings at time of termination will be honored by both parties.
+
+8. NON-CIRCUMVENTION
+• MC agrees not to bypass Songtrybe in any direct deals resulting from Songtrybe-originated client introductions or event referrals without prior written consent.
+• For any direct bookings resulting from Songtrybe referrals, MC agrees to notify Songtrybe and optionally share a 12% commission if the booking was facilitated through the platform.
+• Exception: Pre-existing client relationships established before joining Songtrybe are exempt from this clause.
+
+9. GOVERNING LAW
+This Agreement shall be governed and construed in accordance with the laws of the State of ${data.governingState}.
+Any disputes arising from this agreement will be resolved through binding arbitration in the selected state.
+
+DIGITAL SIGNATURE:
+MC Name: ${data.mcName}
+Date: ${data.signatureDate}
+Digital Signature: [Signature captured and attached]
+
+By signing this agreement digitally, ${data.mcName} acknowledges reading, understanding, and agreeing to all 9 sections and terms and conditions outlined above.
+
+Agreement completed on: ${new Date().toLocaleString()}
+
+SONGTRYBE INC.
+This agreement has been digitally executed and is legally binding.
+            `;
+        }
+
+        function updateProgress() {
+            validateForm();
+        }
+    </script>
+</body>
+</html>

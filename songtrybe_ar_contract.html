@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songtrybe A&R Agreement</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF5722, #E64A19);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-section {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 20px 0;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .form-section.active {
+            border-color: #FF5722;
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.15);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #E64A19 0%, #D84315 100%);
+        }
+
+        .expand-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 20px;
+            background: white;
+            display: none;
+        }
+
+        .section-content.expanded {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FF5722;
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item:hover {
+            background: #eeeeee;
+        }
+
+        .checkbox-item input {
+            margin-right: 8px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #E64A19 0%, #D84315 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary {
+            background: #757575;
+            margin-right: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #616161;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #0d47a1;
+            border-left: 4px solid #2196f3;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            color: #e65100;
+            border-left: 4px solid #ff9800;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-left: 4px solid #4caf50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+
+        table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .signature-area {
+            margin: 20px 0;
+        }
+
+        #signatureCanvas {
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            cursor: crosshair;
+            background: #f9f9f9;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+
+        .completion-message h2 {
+            color: #FF5722;
+            margin-bottom: 15px;
+        }
+
+        .completion-message p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+
+        .back-to-home {
+            text-decoration: none;
+            color: #FF5722;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .navigation-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="header">
+            <h1>SONGTRYBE A&R AGREEMENT</h1>
+            <p>Artists & Repertoire Talent Scouting & Development Contract</p>
+        </div>
+        
+        <div class="form-container" id="contractForm">
+            <!-- Personal Information Section -->
+            <div class="form-section active" id="section1">
+                <div class="section-header" onclick="toggleSection(1)">
+                    1. Personal Information
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content expanded">
+                    <div class="alert alert-info">
+                        Please provide your personal and professional information below.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="arName">Full Legal Name *</label>
+                        <input type="text" id="arName" name="arName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="professionalName">Professional Name (if different)</label>
+                        <input type="text" id="professionalName" name="professionalName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Primary Location/Market *</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Years of Industry Experience *</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="0-2">0-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="6-10">6-10 years</option>
+                            <option value="10+">10+ years</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Expertise & Specialization Section -->
+            <div class="form-section" id="section2">
+                <div class="section-header" onclick="toggleSection(2)">
+                    2. Expertise & Specialization
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-info">
+                        Select your areas of expertise and music genre specializations.
+                    </div>
+                    
+                    <h3>Areas of Expertise</h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise1" name="expertise" value="Talent Scouting">
+                            <label for="expertise1">Talent Scouting</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise2" name="expertise" value="Artist Development">
+                            <label for="expertise2">Artist Development</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise3" name="expertise" value="Repertoire Selection">
+                            <label for="expertise3">Repertoire Selection</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise4" name="expertise" value="Music Production">
+                            <label for="expertise4">Music Production</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise5" name="expertise" value="Industry Networking">
+                            <label for="expertise5">Industry Networking</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise6" name="expertise" value="Artist Branding">
+                            <label for="expertise6">Artist Branding</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise7" name="expertise" value="Contract Negotiation">
+                            <label for="expertise7">Contract Negotiation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="expertise8" name="expertise" value="Marketing Strategy">
+                            <label for="expertise8">Marketing Strategy</label>
+                        </div>
+                    </div>
+                    
+                    <h3>Genre Specialization</h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre1" name="genre" value="Pop">
+                            <label for="genre1">Pop</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre2" name="genre" value="Hip-Hop/Rap">
+                            <label for="genre2">Hip-Hop/Rap</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre3" name="genre" value="R&B">
+                            <label for="genre3">R&B</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre4" name="genre" value="Afrobeats">
+                            <label for="genre4">Afrobeats</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre5" name="genre" value="Rock">
+                            <label for="genre5">Rock</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre6" name="genre" value="Country">
+                            <label for="genre6">Country</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre7" name="genre" value="Electronic/Dance">
+                            <label for="genre7">Electronic/Dance</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre8" name="genre" value="Latin">
+                            <label for="genre8">Latin</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre9" name="genre" value="Jazz">
+                            <label for="genre9">Jazz</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre10" name="genre" value="Indie">
+                            <label for="genre10">Indie</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="genre11" name="genre" value="Gospel/Christian">
+                            <label for="genre11">Gospel/Christian</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Services & Responsibilities Section -->
+            <div class="form-section" id="section3">
+                <div class="section-header" onclick="toggleSection(3)">
+                    3. Services & Responsibilities
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-info">
+                        Review the services and responsibilities you will provide as an A&R Representative.
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Description</th>
+                                <th>Included</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Talent Scouting</strong></td>
+                                <td>Identify and scout new musical talent for potential signing to the Company</td>
+                                <td><input type="checkbox" name="service1" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Artist Evaluation</strong></td>
+                                <td>Evaluate and assess the commercial potential of artists and their music</td>
+                                <td><input type="checkbox" name="service2" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Industry Networking</strong></td>
+                                <td>Maintain relationships with artists, managers, producers, and other industry professionals</td>
+                                <td><input type="checkbox" name="service3" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Live Performance Scouting</strong></td>
+                                <td>Attend live performances, industry events, and showcases to discover new talent</td>
+                                <td><input type="checkbox" name="service4" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Artist Development</strong></td>
+                                <td>Provide feedback and guidance to artists regarding their music, image, and career development</td>
+                                <td><input type="checkbox" name="service5" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Creative Direction</strong></td>
+                                <td>Assist in the creative development of artists signed to the Company</td>
+                                <td><input type="checkbox" name="service6"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Recording Oversight</strong></td>
+                                <td>Coordinate and oversee recording sessions when required</td>
+                                <td><input type="checkbox" name="service7"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reporting & Analysis</strong></td>
+                                <td>Submit detailed reports on scouting activities and artist evaluations</td>
+                                <td><input type="checkbox" name="service8"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Compensation Section -->
+            <div class="form-section" id="section4">
+                <div class="section-header" onclick="toggleSection(4)">
+                    4. Compensation & Expenses
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-info">
+                        Review and select compensation structure and expense reimbursement terms.
+                    </div>
+                    
+                    <h3>Compensation Structure</h3>
+                    <div class="form-group">
+                        <label for="retainer">Monthly Retainer Amount ($)</label>
+                        <input type="number" id="retainer" name="retainer" placeholder="e.g., 2000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="findersFee">Finder's Fee Percentage (%)</label>
+                        <input type="number" id="findersFee" name="findersFee" placeholder="e.g., 10" min="0" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="commission">Commission Percentage on Net Profits (%)</label>
+                        <input type="number" id="commission" name="commission" placeholder="e.g., 5" min="0" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="commissionPeriod">Commission Period (Years)</label>
+                        <input type="number" id="commissionPeriod" name="commissionPeriod" placeholder="e.g., 3" min="1" max="10">
+                    </div>
+                    
+                    <h3>Expense Reimbursement</h3>
+                    <div class="form-group">
+                        <label for="expenseThreshold">Pre-approval Threshold ($)</label>
+                        <input type="number" id="expenseThreshold" name="expenseThreshold" placeholder="e.g., 200">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expenseSubmission">Expense Submission Period (Days)</label>
+                        <input type="number" id="expenseSubmission" name="expenseSubmission" value="30" min="1" max="90">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contract Terms Section -->
+            <div class="form-section" id="section5">
+                <div class="section-header" onclick="toggleSection(5)">
+                    5. Complete Contract Terms & Conditions
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-warning">
+                        <strong>Please review all sections of the A&R contract below:</strong>
+                    </div>
+                    
+                    <!-- Section 1: Purpose & Engagement -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            1. Purpose & Engagement
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement outlines the collaboration between Songtrybe and the A&R Representative for talent scouting, artist development, and music acquisition. Company hereby engages A&R Representative to provide artists and repertoire services as described herein. A&R Representative accepts such engagement and agrees to provide such services in accordance with the terms and conditions of this Agreement.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 2: Services -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            2. Services Provided by A&R Representative
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><em>Detailed in Section 3 above - includes Talent Scouting, Artist Evaluation, Industry Networking, Live Performance Scouting, Artist Development, Creative Direction, Recording Oversight, and Reporting & Analysis.</em></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 3: Term -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            3. Term
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>The initial term of this Agreement shall be for a period of one (1) year commencing on the date of execution. This Agreement may be renewed for additional periods upon mutual written agreement of the parties.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 4: Compensation -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            4. Compensation
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>In consideration for the services provided, A&R Representative shall receive:</p>
+                            <ul>
+                                <li>A monthly retainer as specified in Section 4 above, payable on the first day of each month;</li>
+                                <li>A finder's fee equal to the percentage specified in Section 4 above of the initial advance paid to any artist signed to the Company as a direct result of A&R Representative's efforts;</li>
+                                <li>A commission on net profits generated by artists signed to the Company as a direct result of A&R Representative's efforts, for the period specified in Section 4 above following the signing of such artist.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional contract terms would continue here -->
+                </div>
+            </div>
+            
+            <!-- Signature Section -->
+            <div class="form-section" id="section6">
+                <div class="section-header" onclick="toggleSection(6)">
+                    6. Signature & Submission
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-info">
+                        Please review all contract terms before signing and submitting.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="governingState">Governing State/Jurisdiction</label>
+                        <select id="governingState" name="governingState" required>
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signatureDate">Date</label>
+                        <input type="date" id="signatureDate" name="signatureDate" required>
+                    </div>
+                    
+                    <div class="signature-area">
+                        <label for="signatureCanvas">Signature</label>
+                        <p>Sign below using your mouse or finger on touch devices:</p>
+                        <canvas id="signatureCanvas" width="600" height="200"></canvas>
+                        <button type="button" class="btn btn-secondary" onclick="clearSignature()">Clear Signature</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="agreeTerms" required>
+                            I have read, understand, and agree to the terms and conditions of this A&R Agreement.
+                        </label>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-secondary" id="backButton" onclick="window.location.href='index.html'">Back to Dashboard</button>
+                        <button type="button" class="btn" onclick="generatePDF()">Generate & Download Contract</button>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border-left: 4px solid #FF5722;">
+                        <h3 style="color: #333; font-size: 18px; margin-bottom: 10px;">Next Steps</h3>
+                        <p style="color: #555; line-height: 1.5;">
+                            After completing this contract, please download the PDF and send it to <strong style="color: #FF5722;">join@songtrybe.com</strong> for review and finalization.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Completion Message -->
+            <div class="completion-message" id="completionMessage">
+                <h2>Contract Successfully Generated!</h2>
+                <p>Your A&R Agreement has been generated and downloaded to your device.</p>
+                <p>A confirmation email with your contract details has been sent to your email address.</p>
+                <a href="index.html" class="back-to-home" id="returnLink">Return to Contracts Dashboard</a>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        /* Modal styles */
+        #welcomeModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .welcome-modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: center;
+        }
+        
+        .welcome-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .welcome-modal-title {
+            color: #FF5722;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .welcome-modal-text {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .welcome-modal-button {
+            background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+    
+    <!-- Enhanced Welcome Modal with Slides -->
+    <div id="welcomeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); z-index: 9999;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 12px; width: 90%; max-width: 650px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <span onclick="closeWelcomeModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999;">&times;</span>
+            
+            <!-- Slides Container -->
+            <div id="welcomeSlides">
+                <!-- Slide 1: Welcome -->
+                <div class="welcome-slide" data-slide="1" style="display: block;">
+                    <div style="margin-bottom: 30px;">
+                        <img src="https://placehold.co/120x120/FF5722/FFFFFF?text=A%26R" alt="A&R Icon" style="border-radius: 60px;">
+                    </div>
+                    <h2 style="color: #FF5722; margin-bottom: 20px; font-size: 28px;">Welcome to SongTrybe!</h2>
+                    <p style="margin-bottom: 15px; font-size: 18px;">Hello <span id="welcomeName"></span>,</p>
+                    <p style="margin-bottom: 25px; font-size: 18px; color: #444; line-height: 1.5;">
+                        We're excited to have you join us at SongTrybe! This A&R contract has been shared with you to formalize our working relationship.
+                    </p>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF5722; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <button onclick="showWelcomeSlide(2)" style="background: #FF5722; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Next</button>
+                </div>
+                
+                <!-- Slide 2: Who & Why -->
+                <div class="welcome-slide" data-slide="2" style="display: none;">
+                    <h2 style="color: #FF5722; margin-bottom: 20px; font-size: 28px;">Who We Are & Why A&R</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <p style="margin-bottom: 15px; font-size: 18px; color: #444; line-height: 1.5;">
+                            <strong style="color: #FF5722;">Who:</strong> SongTrybe is a platform connecting talented music industry professionals with opportunities in the entertainment industry.
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 18px; color: #444; line-height: 1.5;">
+                            <strong style="color: #FF5722;">Why A&R:</strong> As an A&R (Artist & Repertoire) professional, you'll help discover and develop musical talent, connecting artists with the right opportunities and resources.
+                        </p>
+                        <p style="font-size: 18px; color: #444; line-height: 1.5;">
+                            This contract establishes our partnership to promote your A&R services and connect you with artists who need your expertise.
+                        </p>
+                    </div>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF5722; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button onclick="showWelcomeSlide(1)" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Previous</button>
+                        <button onclick="showWelcomeSlide(3)" style="background: #FF5722; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Benefits -->
+                <div class="welcome-slide" data-slide="3" style="display: none;">
+                    <h2 style="color: #FF5722; margin-bottom: 20px; font-size: 28px;">Your Benefits</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #FF5722; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Featured profile with your expertise, credentials, and artist success stories</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #FF5722; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Access to emerging artists seeking A&R representation and guidance</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #FF5722; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Marketing support to promote your A&R services to relevant audiences</p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #FF5722; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Industry networking opportunities with labels, producers, and other music professionals</p>
+                        </div>
+                    </div>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF5722; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button onclick="showWelcomeSlide(2)" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Previous</button>
+                        <button onclick="closeWelcomeModal()" style="background: #FF5722; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check for name parameter on page load
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipientName = urlParams.get('name');
+            
+            if (recipientName) {
+                // Show welcome modal
+                document.getElementById('welcomeName').textContent = recipientName;
+                document.getElementById('welcomeModal').style.display = 'block';
+                
+                // Hide navigation back to home page
+                const backButton = document.getElementById('backButton');
+                if (backButton) backButton.style.display = 'none';
+                
+                const returnLink = document.getElementById('returnLink');
+                if (returnLink) returnLink.style.display = 'none';
+            }
+        };
+        
+        // Show welcome modal
+        function showWelcomeModal(recipientName) {
+            document.getElementById('welcomeName').textContent = recipientName;
+            const welcomeModal = document.getElementById('welcomeModal');
+            welcomeModal.style.display = 'flex';
+            console.log('Welcome modal should be visible now for:', recipientName);
+            
+            // Reset to first slide
+            showWelcomeSlide(1);
+        }
+        
+        // Navigate between welcome modal slides
+        function showWelcomeSlide(slideNumber) {
+            // Hide all slides
+            const slides = document.querySelectorAll('.welcome-slide');
+            slides.forEach(slide => {
+                slide.style.display = 'none';
+            });
+            
+            // Show the requested slide
+            const targetSlide = document.querySelector(`.welcome-slide[data-slide="${slideNumber}"]`);
+            if (targetSlide) {
+                targetSlide.style.display = 'block';
+            }
+        }
+        
+        // Close welcome modal
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+        
+        // Variables for signature canvas
+        let canvas = document.getElementById('signatureCanvas');
+        let ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        
+        // Initialize progress bar
+        updateProgress();
+        
+        // Toggle section visibility
+        function toggleSection(sectionNumber) {
+            const header = document.querySelector(`#section${sectionNumber} .section-header`);
+            const content = document.querySelector(`#section${sectionNumber} .section-content`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                header.classList.remove('expanded');
+            } else {
+                content.classList.add('expanded');
+                header.classList.add('expanded');
+            }
+            
+            updateProgress();
+        }
+        
+        // Update progress bar based on completed sections
+        function updateProgress() {
+            const totalSections = document.querySelectorAll('.form-section').length - 1; // Exclude nested sections
+            const expandedSections = document.querySelectorAll('.section-content.expanded').length;
+            const progressPercentage = (expandedSections / totalSections) * 100;
+            
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+        }
+        
+        // Signature canvas functionality
+        if (canvas) {
+            // Set up canvas
+            function setupCanvas() {
+                // Set canvas dimensions
+                const containerWidth = canvas.parentElement.offsetWidth;
+                canvas.width = Math.min(600, containerWidth - 20);
+                
+                // Set canvas style
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                // Clear canvas
+                clearSignature();
+            }
+            
+            // Initialize canvas
+            window.addEventListener('load', setupCanvas);
+            window.addEventListener('resize', setupCanvas);
+            
+            // Drawing functions
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = getCoordinates(e);
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                e.preventDefault();
+                
+                const [currentX, currentY] = getCoordinates(e);
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+                
+                [lastX, lastY] = [currentX, currentY];
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            function getCoordinates(e) {
+                let x, y;
+                
+                if (e.type.includes('touch')) {
+                    const rect = canvas.getBoundingClientRect();
+                    x = e.touches[0].clientX - rect.left;
+                    y = e.touches[0].clientY - rect.top;
+                } else {
+                    const rect = canvas.getBoundingClientRect();
+                    x = e.clientX - rect.left;
+                    y = e.clientY - rect.top;
+                }
+                
+                return [x, y];
+            }
+            
+            // Clear signature
+            function clearSignature() {
+                ctx.fillStyle = '#f9f9f9';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Add signature line
+                ctx.beginPath();
+                ctx.moveTo(20, canvas.height - 50);
+                ctx.lineTo(canvas.width - 20, canvas.height - 50);
+                ctx.strokeStyle = '#ccc';
+                ctx.stroke();
+                ctx.strokeStyle = '#333';
+            }
+            
+            // Add event listeners
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events
+            canvas.addEventListener('touchstart', startDrawing);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+        
+        function generatePDF() {
+            // Collect form data
+            const formData = {
+                arName: document.getElementById('arName').value,
+                professionalName: document.getElementById('professionalName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                experience: document.getElementById('experience').value,
+                governingState: document.getElementById('governingState').value,
+                signatureDate: document.getElementById('signatureDate').value,
+                signature: canvas.toDataURL(),
+                retainer: document.getElementById('retainer').value,
+                findersFee: document.getElementById('findersFee').value,
+                commission: document.getElementById('commission').value,
+                commissionPeriod: document.getElementById('commissionPeriod').value,
+                expertise: Array.from(document.querySelectorAll('input[name="expertise"]:checked')).map(cb => cb.value),
+                genres: Array.from(document.querySelectorAll('input[name="genre"]:checked')).map(cb => cb.value)
+            };
+            
+            // Create PDF using jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Set font size and styles
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            
+            // Add title
+            doc.text('SONGTRYBE A&R AGREEMENT', 105, 20, { align: 'center' });
+            
+            // Reset font for body text
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            
+            // Add effective date
+            doc.text(`Effective Date: ${formData.signatureDate}`, 20, 30);
+            
+            // Add parties section
+            doc.setFont('helvetica', 'bold');
+            doc.text('PARTIES:', 20, 40);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`A&R Representative Name: ${formData.arName}`, 20, 45);
+            doc.text(`Professional Name: ${formData.professionalName || 'N/A'}`, 20, 50);
+            doc.text(`Email: ${formData.email}`, 20, 55);
+            doc.text(`Phone: ${formData.phone}`, 20, 60);
+            doc.text(`Location: ${formData.location || 'N/A'}`, 20, 65);
+            doc.text(`Experience: ${formData.experience || 'N/A'}`, 20, 70);
+            doc.text(`Areas of Expertise: ${formData.expertise.length ? formData.expertise.join(', ') : 'N/A'}`, 20, 75);
+            doc.text(`Genre Specialization: ${formData.genres.length ? formData.genres.join(', ') : 'N/A'}`, 20, 80);
+            
+            doc.text(`This Agreement is made by and between Songtrybe Inc., a music technology and services`, 20, 90);
+            doc.text(`platform ("Songtrybe"), and ${formData.arName} ("A&R Representative"), collectively referred to as "Parties."`, 20, 95);
+            
+            // Add sections (we'll add more content with multiple pages)
+            let yPosition = 105;
+            const addSection = (title, content) => {
+                // Check if we need a new page
+                if (yPosition > 270) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                doc.setFont('helvetica', 'bold');
+                doc.text(title, 20, yPosition);
+                doc.setFont('helvetica', 'normal');
+                yPosition += 5;
+                
+                // Split content into multiple lines
+                const contentLines = doc.splitTextToSize(content, 170);
+                doc.text(contentLines, 20, yPosition);
+                yPosition += (contentLines.length * 5) + 5;
+            };
+            
+            // Add contract sections
+            addSection('1. PURPOSE & ENGAGEMENT', 'This Agreement outlines the collaboration between Songtrybe and the A&R Representative for talent scouting, artist development, and music acquisition. Company hereby engages A&R Representative to provide artists and repertoire services as described herein. A&R Representative accepts such engagement and agrees to provide such services in accordance with the terms and conditions of this Agreement.');
+            
+            addSection('2. SERVICES PROVIDED BY A&R REPRESENTATIVE', 'A&R Representative shall provide the following services:\n• Talent Scouting: Identify and scout new musical talent for potential signing to the Company.\n• Artist Evaluation: Evaluate and assess the commercial potential of artists and their music.\n• Industry Networking: Maintain relationships with artists, managers, producers, and other industry professionals.\n• Live Performance Scouting: Attend live performances, industry events, and showcases to discover new talent.\n• Artist Development: Provide feedback and guidance to artists regarding their music, image, and career development.\n• Creative Direction: Assist in the creative development of artists signed to the Company.\n• Recording Oversight: Coordinate and oversee recording sessions when required.\n• Reporting & Analysis: Submit detailed reports on scouting activities and artist evaluations.');
+            
+            addSection('3. TERM', 'The initial term of this Agreement shall be for a period of one (1) year commencing on the date of execution. This Agreement may be renewed for additional periods upon mutual written agreement of the parties.');
+            
+            addSection('4. COMPENSATION', `In consideration for the services provided, A&R Representative shall receive:\n• A monthly retainer of $${formData.retainer || '________'} payable on the first day of each month.\n• A finder's fee equal to ${formData.findersFee || '____'}% of the initial advance paid to any artist signed to the Company as a direct result of A&R Representative's efforts.\n• A commission of ${formData.commission || '____'}% on net profits generated by artists signed to the Company as a direct result of A&R Representative's efforts, for a period of ${formData.commissionPeriod || '_____'} years following the signing of such artist.`);
+            
+            addSection('5. EXPENSES', `The Company shall reimburse A&R Representative for reasonable expenses incurred in the performance of services under this Agreement, provided that:\n• All expenses exceeding $${formData.expenseThreshold || '_____'} must be pre-approved in writing by the Company.\n• A&R Representative submits detailed expense reports with receipts within ${formData.expenseSubmission || 'thirty (30)'} days of incurring such expenses.\n• All expenses comply with the Company's expense policy, a copy of which has been provided to A&R Representative.`);
+            
+            // Add remaining sections
+            addSection('6. INDEPENDENT CONTRACTOR STATUS', 'A&R Representative acknowledges and agrees that they are an independent contractor and not an employee of the Company. A&R Representative shall be responsible for all taxes, insurance, and other obligations related to their status as an independent contractor.');
+            
+            addSection('7. EXCLUSIVITY', 'During the term of this Agreement, A&R Representative shall not provide similar services to any other music company, record label, or entertainment entity without the prior written consent of the Company.');
+            
+            addSection('8. CONFIDENTIALITY', 'A&R Representative acknowledges that they will have access to confidential and proprietary information of the Company. A&R Representative agrees to maintain the confidentiality of such information during and after the term of this Agreement and shall not disclose such information to any third party without the prior written consent of the Company.');
+            
+            addSection('9. INTELLECTUAL PROPERTY', 'All intellectual property created or developed by A&R Representative in connection with the services provided under this Agreement shall be the sole and exclusive property of the Company.');
+            
+            addSection('10. TERMINATION', 'This Agreement may be terminated:\n\u2022 By either party upon thirty (30) days written notice to the other party.\n\u2022 By the Company immediately for cause, including but not limited to A&R Representative\'s breach of this Agreement, dishonesty, or misconduct.\n\u2022 By mutual written agreement of the parties.');
+            
+            // Add signature section
+            if (yPosition > 200) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('SIGNATURES:', 20, yPosition);
+            yPosition += 10;
+            
+            doc.text('SONGTRYBE, LLC', 20, yPosition);
+            yPosition += 20;
+            doc.text('By: _________________________', 20, yPosition);
+            yPosition += 10;
+            doc.text('Name: _______________________', 20, yPosition);
+            yPosition += 10;
+            doc.text('Title: ________________________', 20, yPosition);
+            yPosition += 10;
+            doc.text(`Date: ${formData.signatureDate}`, 20, yPosition);
+            yPosition += 20;
+            
+            doc.text('A&R REPRESENTATIVE', 20, yPosition);
+            yPosition += 10;
+            
+            // Add signature image
+            if (canvas.toDataURL() !== document.createElement('canvas').toDataURL()) {
+                try {
+                    doc.addImage(formData.signature, 'PNG', 20, yPosition, 50, 20);
+                } catch (e) {
+                    console.error('Error adding signature to PDF:', e);
+                }
+            }
+            
+            yPosition += 25;
+            doc.text(`Name: ${formData.arName}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Date: ${formData.signatureDate}`, 20, yPosition);
+            
+            // Save the PDF
+            doc.save(`Songtrybe_AR_Agreement_${formData.arName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+            
+            // Show completion message
+            document.getElementById('contractForm').style.display = 'none';
+            document.getElementById('completionMessage').style.display = 'block';
+        }
+        
+        function generatePDFContent(data) {
+            return `
+SONGTRYBE A&R AGREEMENT
+Effective Date: ${data.signatureDate}
+
+PARTIES:
+A&R Representative Name: ${data.arName}
+Professional Name: ${data.professionalName || 'N/A'}
+Email: ${data.email}
+Phone: ${data.phone}
+Location: ${data.location || 'N/A'}
+Experience: ${data.experience || 'N/A'}
+Areas of Expertise: ${data.expertise.length ? data.expertise.join(', ') : 'N/A'}
+Genre Specialization: ${data.genres.length ? data.genres.join(', ') : 'N/A'}
+
+This Agreement is made by and between Songtrybe Inc., a music technology and services platform ("Songtrybe"), and ${data.arName} ("A&R Representative"), collectively referred to as "Parties."
+
+1. PURPOSE & ENGAGEMENT
+This Agreement outlines the collaboration between Songtrybe and the A&R Representative for talent scouting, artist development, and music acquisition. Company hereby engages A&R Representative to provide artists and repertoire services as described herein. A&R Representative accepts such engagement and agrees to provide such services in accordance with the terms and conditions of this Agreement.
+
+2. SERVICES PROVIDED BY A&R REPRESENTATIVE
+A&R Representative shall provide the following services:
+• Talent Scouting: Identify and scout new musical talent for potential signing to the Company.
+• Artist Evaluation: Evaluate and assess the commercial potential of artists and their music.
+• Industry Networking: Maintain relationships with artists, managers, producers, and other industry professionals.
+• Live Performance Scouting: Attend live performances, industry events, and showcases to discover new talent.
+• Artist Development: Provide feedback and guidance to artists regarding their music, image, and career development.
+• Creative Direction: Assist in the creative development of artists signed to the Company.
+• Recording Oversight: Coordinate and oversee recording sessions when required.
+• Reporting & Analysis: Submit detailed reports on scouting activities and artist evaluations.
+
+3. TERM
+The initial term of this Agreement shall be for a period of one (1) year commencing on the date of execution. This Agreement may be renewed for additional periods upon mutual written agreement of the parties.
+
+4. COMPENSATION
+In consideration for the services provided, A&R Representative shall receive:
+• A monthly retainer of $${data.retainer || '________'} payable on the first day of each month.
+• A finder's fee equal to ${data.findersFee || '____'}% of the initial advance paid to any artist signed to the Company as a direct result of A&R Representative's efforts.
+• A commission of ${data.commission || '____'}% on net profits generated by artists signed to the Company as a direct result of A&R Representative's efforts, for a period of ${data.commissionPeriod || '_____'} years following the signing of such artist.
+
+5. EXPENSES
+The Company shall reimburse A&R Representative for reasonable expenses incurred in the performance of services under this Agreement, provided that:
+• All expenses exceeding $${data.expenseThreshold || '_____'} must be pre-approved in writing by the Company.
+• A&R Representative submits detailed expense reports with receipts within ${data.expenseSubmission || 'thirty (30)'} days of incurring such expenses.
+• All expenses comply with the Company's expense policy, a copy of which has been provided to A&R Representative.
+
+6. INDEPENDENT CONTRACTOR STATUS
+A&R Representative acknowledges and agrees that they are an independent contractor and not an employee of the Company. A&R Representative shall be responsible for all taxes, insurance, and other obligations related to their status as an independent contractor.
+
+7. EXCLUSIVITY
+During the term of this Agreement, A&R Representative shall not provide similar services to any other music company, record label, or entertainment entity without the prior written consent of the Company.
+
+8. CONFIDENTIALITY
+A&R Representative acknowledges that they will have access to confidential and proprietary information of the Company. A&R Representative agrees to maintain the confidentiality of such information during and after the term of this Agreement and shall not disclose such information to any third party without the prior written consent of the Company.
+
+9. INTELLECTUAL PROPERTY
+All intellectual property created or developed by A&R Representative in connection with the services provided under this Agreement shall be the sole and exclusive property of the Company.
+
+10. TERMINATION
+This Agreement may be terminated:
+• By either party upon thirty (30) days' written notice to the other party.
+• By the Company immediately for cause, including but not limited to A&R Representative's breach of this Agreement, dishonesty, or misconduct.
+• By mutual written agreement of the parties.
+
+11. EFFECT OF TERMINATION
+Upon termination of this Agreement:
+• A&R Representative shall be entitled to all compensation earned up to the date of termination.
+• A&R Representative shall be entitled to finder's fees and commissions for artists signed to the Company as a direct result of A&R Representative's efforts prior to termination, in accordance with Section 4.
+• A&R Representative shall immediately return all Company property, documents, and confidential information.
+
+12. GOVERNING LAW
+This Agreement shall be governed by and construed in accordance with the laws of the State of ${data.governingState || '____________'}, without regard to its conflict of laws principles.
+
+13. DISPUTE RESOLUTION
+Any dispute arising out of or relating to this Agreement shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association. The arbitration shall take place in the State of ${data.governingState || '____________'}, and the decision of the arbitrator shall be final and binding on the parties.
+
+14. ENTIRE AGREEMENT
+This Agreement constitutes the entire understanding between the parties with respect to the subject matter hereof and supersedes all prior agreements, understandings, or negotiations.
+
+15. AMENDMENTS
+This Agreement may only be modified or amended by a written instrument executed by both parties.
+
+SIGNATURES:
+
+SONGTRYBE, LLC
+
+By: _________________________
+Name: _______________________
+Title: ________________________
+Date: ${data.signatureDate}
+
+A&R REPRESENTATIVE
+
+Name: ${data.arName}
+Date: ${data.signatureDate}
+`;
+        }
+    </script>
+</body>
+</html>

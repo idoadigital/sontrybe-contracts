@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songtrybe Dancer Participation & Marketing Agreement</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-section {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 20px 0;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .form-section.active {
+            border-color: #9b59b6;
+            box-shadow: 0 4px 12px rgba(155, 89, 182, 0.15);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
+        }
+
+        .expand-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 20px;
+            background: white;
+            display: none;
+        }
+
+        .section-content.expanded {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #9b59b6;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .services-table,
+        .terms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .services-table th,
+        .services-table td,
+        .terms-table th,
+        .terms-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .services-table th,
+        .terms-table th {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .services-table tr:nth-child(even),
+        .terms-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .signature-section {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border-radius: 8px;
+            margin: 30px 0;
+            padding: 20px;
+        }
+
+        .signature-canvas {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: crosshair;
+            margin: 10px 0;
+        }
+
+        .canvas-controls {
+            margin: 10px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .completion-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: bold;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .step.active {
+            background: #9b59b6;
+        }
+
+        .step.completed {
+            background: #4caf50;
+        }
+
+        .dance-styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .dance-styles-grid label {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dance-styles-grid label:hover {
+            background: #e9ecef;
+            border-color: #9b59b6;
+        }
+
+        .dance-styles-grid input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .dance-styles-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="header">
+            <h1>SONGTRYBE DANCER PARTICIPATION & MARKETING AGREEMENT</h1>
+            <p>Professional Dancer Digital Contract Acceptance Form</p>
+        </div>
+
+        <div class="completion-status" id="completionStatus">
+            Progress: <span id="progressText">0%</span>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active" id="step1">1</div>
+            <div class="step" id="step2">2</div>
+            <div class="step" id="step3">3</div>
+            <div class="step" id="step4">4</div>
+        </div>
+
+        <form class="form-container" id="contractForm">
+            <div class="alert alert-warning">
+                <strong>Important:</strong> Please read each section carefully and fill out all required information. You can expand/collapse sections by clicking on the headers.
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="form-section active" id="section1">
+                <div class="section-header" onclick="toggleSection(1)">
+                    1. Personal Information
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content expanded">
+                    <div class="form-group">
+                        <label for="dancerName">Full Name *</label>
+                        <input type="text" id="dancerName" name="dancerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stageName">Stage/Performance Name (if different)</label>
+                        <input type="text" id="stageName" name="stageName">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location (City, State)</label>
+                        <input type="text" id="location" name="location">
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Years of Professional Dance Experience</label>
+                        <select id="experience" name="experience">
+                            <option value="">Select...</option>
+                            <option value="0-2">0-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="5-8">5-8 years</option>
+                            <option value="8-12">8-12 years</option>
+                            <option value="12+">12+ years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="danceStyles">Dance Styles & Specialties (Check all that apply)</label>
+                        <div class="dance-styles-grid">
+                            <label><input type="checkbox" name="danceStyle" value="ballet"> Ballet</label>
+                            <label><input type="checkbox" name="danceStyle" value="jazz"> Jazz</label>
+                            <label><input type="checkbox" name="danceStyle" value="contemporary"> Contemporary</label>
+                            <label><input type="checkbox" name="danceStyle" value="hiphop"> Hip Hop</label>
+                            <label><input type="checkbox" name="danceStyle" value="latin"> Latin Dance</label>
+                            <label><input type="checkbox" name="danceStyle" value="ballroom"> Ballroom</label>
+                            <label><input type="checkbox" name="danceStyle" value="tap"> Tap Dance</label>
+                            <label><input type="checkbox" name="danceStyle" value="modern"> Modern</label>
+                            <label><input type="checkbox" name="danceStyle" value="lyrical"> Lyrical</label>
+                            <label><input type="checkbox" name="danceStyle" value="commercial"> Commercial</label>
+                            <label><input type="checkbox" name="danceStyle" value="breakdance"> Breakdance</label>
+
+                            <label><input type="checkbox" name="danceStyle" value="burlesque"> Burlesque</label>
+                            <label><input type="checkbox" name="danceStyle" value="cultural"> Cultural/Folk</label>
+                            <label><input type="checkbox" name="danceStyle" value="choreography"> Choreography</label>
+                            <label><input type="checkbox" name="danceStyle" value="backup"> Backup Dancing</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="performanceTypes">Performance Experience (Check all that apply)</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <label><input type="checkbox" name="performanceType" value="music_videos"> Music Videos</label>
+                            <label><input type="checkbox" name="performanceType" value="live_concerts"> Live Concerts</label>
+                            <label><input type="checkbox" name="performanceType" value="nightclub"> Nightclub Performances</label>
+                            <label><input type="checkbox" name="performanceType" value="theater"> Theater Productions</label>
+                            <label><input type="checkbox" name="performanceType" value="corporate"> Corporate Events</label>
+                            <label><input type="checkbox" name="performanceType" value="weddings"> Wedding Entertainment</label>
+                            <label><input type="checkbox" name="performanceType" value="competitions"> Dance Competitions</label>
+                            <label><input type="checkbox" name="performanceType" value="teaching"> Dance Instruction</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services & Benefits Section -->
+            <div class="form-section" id="section2">
+                <div class="section-header" onclick="toggleSection(2)">
+                    2. Services & Benefits Overview
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p><strong>Songtrybe will provide the following benefits at no cost:</strong></p>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Description</th>
+                                <th>Accept</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Dancer Profile Showcase</strong></td>
+                                <td>Featured profile with dance styles, video portfolio, and performance gallery</td>
+                                <td><input type="checkbox" name="service1" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Entertainment Industry Marketing</strong></td>
+                                <td>Targeted campaigns to music artists, video producers, event planners, and venues</td>
+                                <td><input type="checkbox" name="service2" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Performance Opportunities</strong></td>
+                                <td>Booking referrals for live shows, music videos, events, and backup dancing gigs</td>
+                                <td><input type="checkbox" name="service3" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dancer Network Access</strong></td>
+                                <td>Exclusive notifications for high-profile dance opportunities and casting calls</td>
+                                <td><input type="checkbox" name="service4" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brand Collaboration</strong></td>
+                                <td>Partnership opportunities with dancewear brands, fitness companies, and entertainment venues</td>
+                                <td><input type="checkbox" name="service5" checked></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Performance Analytics</strong></td>
+                                <td>Tracking of bookings, audience engagement, and performance feedback data</td>
+                                <td><input type="checkbox" name="service6"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Professional Development</strong></td>
+                                <td>Access to choreography resources, audition tips, and industry networking events</td>
+                                <td><input type="checkbox" name="service7"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Video Portfolio Support</strong></td>
+                                <td>Assistance with creating and showcasing professional dance reels and performance videos</td>
+                                <td><input type="checkbox" name="service8"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Complete Contract Terms Section -->
+            <div class="form-section" id="section3">
+                <div class="section-header" onclick="toggleSection(3)">
+                    3. Complete Contract Terms & Conditions
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="alert alert-warning">
+                        <strong>Please review all 9 sections of the dancer contract below:</strong>
+                    </div>
+
+                    <!-- Section 1: Purpose -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            1. Purpose
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement outlines the collaboration between Songtrybe and the professional dancer for performance bookings, marketing, and entertainment industry visibility. It provides mutual value through exposure, performance opportunities, and co-branded promotional activities within the dance and entertainment industry.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Services -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            2. Services Provided by Songtrybe
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><em>Detailed in Section 2 above - includes Dancer Profile Showcase, Entertainment Industry Marketing, Performance Opportunities, Dancer Network Access, Brand Collaborations, Performance Analytics, Professional Development, and Video Portfolio Support.</em></p>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Use of Name, Likeness, and Content -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            3. Use of Name, Likeness, and Content
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>The Dancer grants Songtrybe a royalty-free, worldwide, non-exclusive right to:</p>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Display the Dancer's name, image, dance styles, performance videos, and professional branding on Songtrybe's platforms.</li>
+                                <li>Use the Dancer's likeness and performance footage in marketing materials targeting entertainment industry professionals.</li>
+                                <li>Feature submitted content (dance reels, performance videos, photos) across Songtrybe's digital channels and promotional campaigns.</li>
+                                <li>Include Dancer's credentials, testimonials, and performance history in industry marketing materials.</li>
+                                <li>Create promotional content featuring the Dancer's performances for platform marketing purposes.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Referral & Incentive Program -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            4. Referral & Incentive Program
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><strong>Dancer Referrals:</strong> Dancers who refer other performers, choreographers, venues, or entertainment professionals that join Songtrybe may receive bonuses (e.g., $60 per successful referral or priority booking status).</p>
+                            <p><strong>Featured Artist Opportunities:</strong> Top-performing dancers may be featured in Songtrybe promotional campaigns, dance showcases, or branded entertainment content.</p>
+                            <p><strong>Performance Incentives:</strong> Dancers with exceptional client feedback and booking success may receive enhanced promotional support and premium profile features.</p>
+                            <p><strong>Collaboration Bonuses:</strong> Additional compensation opportunities for dancers participating in Songtrybe's branded events or promotional videos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Expectations & Responsibilities -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            5. Expectations & Responsibilities
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Dancers agree to maintain current and accurate profiles including availability, dance styles, and portfolio content.</li>
+                                <li>Songtrybe agrees to use reasonable efforts to promote listed dancers but does not guarantee any specific number of bookings or performance opportunities.</li>
+                                <li>Dancers must maintain professional performance standards including punctuality, appropriate attire, rehearsal attendance, and adherence to choreography requirements.</li>
+                                <li>Dancers agree to provide high-quality performances and maintain positive relationships with clients, venues, and fellow performers.</li>
+                                <li>Dancers must respect venue policies, safety requirements, and performance guidelines at all booked events.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Section 6: Ownership & Rights -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            6. Ownership & Rights
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p><strong>Dancer retains all ownership rights</strong> to their original choreography, performance concepts, and personal branding materials.</p>
+                            <p><strong>Songtrybe has limited promotional rights</strong> for submitted performance videos and dance content for the term of this Agreement.</p>
+                            <p><strong>Performance recordings</strong> created during Songtrybe-facilitated events may be used by both parties for promotional purposes.</p>
+                            <p><strong>Client relationships</strong> developed through Songtrybe referrals remain accessible to both parties for future collaboration opportunities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Term & Termination -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            7. Term & Termination
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement is effective upon signature and remains active unless terminated by either party with <strong>14 days' written notice</strong>.</p>
+                            <p><strong>Upon termination:</strong> Songtrybe will remove the Dancer's profile and stop using their content in new marketing campaigns. Previously published performance content may remain for historical or platform integrity purposes.</p>
+                            <p><strong>Confirmed performances:</strong> Any booked performances at time of termination will be honored by both parties to maintain professional commitments.</p>
+                            <p><strong>Portfolio content:</strong> Dancer may request removal of specific performance videos or promotional materials within 30 days of termination.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 8: Non-Circumvention -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            8. Non-Circumvention
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>Dancer agrees not to bypass Songtrybe in any direct deals resulting from Songtrybe-originated client introductions, casting opportunities, or performance referrals without prior written consent.</p>
+                            <p>For any direct bookings resulting from Songtrybe referrals, Dancer agrees to notify Songtrybe and optionally share a <strong>15% commission</strong> if the performance booking was facilitated through the platform.</p>
+                            <p><strong>Pre-existing relationships:</strong> Clients and venues with established relationships prior to joining Songtrybe are exempt from this clause.</p>
+                            <p><strong>Collaborative projects:</strong> Multi-dancer performances arranged through Songtrybe are subject to platform coordination requirements.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 9: Governing Law -->
+                    <div class="form-section" style="margin: 10px 0;">
+                        <div class="section-header" style="font-size: 1em; padding: 10px 15px;">
+                            9. Governing Law
+                        </div>
+                        <div class="section-content" style="display: block; padding: 15px;">
+                            <p>This Agreement shall be governed and construed in accordance with the laws of the State of <strong>[Insert State]</strong>.</p>
+                            <p>Any disputes arising from this agreement will be resolved through binding arbitration in the selected state, with consideration for the unique nature of performance contracts and entertainment industry standards.</p>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsAccept" name="termsAccept" required>
+                        <label for="termsAccept">
+                            <strong>I have read and agree to ALL 9 sections of this dancer contract</strong>, including the use of my likeness and performance content for marketing purposes, professional performance standards, referral program terms, termination conditions, non-circumvention clause, and commission structure.
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="governingState">Governing State Law *</label>
+                        <select id="governingState" name="governingState" required>
+                            <option value="">Select State...</option>
+                            <option value="Alabama">Alabama</option>
+                            <option value="Alaska">Alaska</option>
+                            <option value="Arizona">Arizona</option>
+                            <option value="Arkansas">Arkansas</option>
+                            <option value="California">California</option>
+                            <option value="Colorado">Colorado</option>
+                            <option value="Connecticut">Connecticut</option>
+                            <option value="Delaware">Delaware</option>
+                            <option value="Florida">Florida</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Hawaii">Hawaii</option>
+                            <option value="Idaho">Idaho</option>
+                            <option value="Illinois">Illinois</option>
+                            <option value="Indiana">Indiana</option>
+                            <option value="Iowa">Iowa</option>
+                            <option value="Kansas">Kansas</option>
+                            <option value="Kentucky">Kentucky</option>
+                            <option value="Louisiana">Louisiana</option>
+                            <option value="Maine">Maine</option>
+                            <option value="Maryland">Maryland</option>
+                            <option value="Massachusetts">Massachusetts</option>
+                            <option value="Michigan">Michigan</option>
+                            <option value="Minnesota">Minnesota</option>
+                            <option value="Mississippi">Mississippi</option>
+                            <option value="Missouri">Missouri</option>
+                            <option value="Montana">Montana</option>
+                            <option value="Nebraska">Nebraska</option>
+                            <option value="Nevada">Nevada</option>
+                            <option value="New Hampshire">New Hampshire</option>
+                            <option value="New Mexico">New Mexico</option>
+                            <option value="New York">New York</option>
+                            <option value="North Carolina">North Carolina</option>
+                            <option value="North Dakota">North Dakota</option>
+                            <option value="Ohio">Ohio</option>
+                            <option value="Oklahoma">Oklahoma</option>
+                            <option value="Oregon">Oregon</option>
+                            <option value="Pennsylvania">Pennsylvania</option>
+                            <option value="Rhode Island">Rhode Island</option>
+                            <option value="South Carolina">South Carolina</option>
+                            <option value="South Dakota">South Dakota</option>
+                            <option value="Tennessee">Tennessee</option>
+                            <option value="Texas">Texas</option>
+                            <option value="Utah">Utah</option>
+                            <option value="Vermont">Vermont</option>
+                            <option value="Virginia">Virginia</option>
+                            <option value="Washington">Washington</option>
+                            <option value="West Virginia">West Virginia</option>
+                            <option value="Wisconsin">Wisconsin</option>
+                            <option value="Wyoming">Wyoming</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Signature Section -->
+            <div class="form-section signature-section" id="section4">
+                <div class="section-header" onclick="toggleSection(4)">
+                    4. Digital Signature & Agreement
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Digital Signature *</label>
+                        <canvas id="signatureCanvas" class="signature-canvas" width="400" height="200"></canvas>
+                        <div class="canvas-controls">
+                            <button type="button" class="btn btn-secondary" onclick="clearSignature()">Clear Signature</button>
+                            <button type="button" class="btn" onclick="saveSignature()">Save Signature</button>
+                        </div>
+                        <p style="font-size: 12px; opacity: 0.8;">Please sign above using your mouse or touch screen</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signatureDate">Date of Signature *</label>
+                        <input type="date" id="signatureDate" name="signatureDate" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="finalAccept" name="finalAccept" required>
+                        <label for="finalAccept" style="color: black;">
+                            <strong>I hereby digitally sign and agree to this Songtrybe Dancer Participation & Marketing Agreement. I understand that this digital signature has the same legal effect as a handwritten signature.</strong>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 30px; margin-bottom: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border-left: 4px solid #9b59b6;">
+                        <h3 style="color: #333; font-size: 18px; margin-bottom: 10px;">Next Steps</h3>
+                        <p style="color: #555; line-height: 1.5;">
+                            After completing this contract, please download the PDF and send it to <strong style="color: #9b59b6;">join@songtrybe.com</strong> for review and finalization.
+                        </p>
+                    </div>
+                    
+                    <div class="alert alert-success" id="successMessage" style="display: none;">
+                        <strong>Success!</strong> Your dancer agreement has been completed. You will receive a confirmation email shortly.
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success" id="submitBtn" disabled>
+                        Complete Agreement & Download
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        /* Welcome Modal styles */
+        .welcome-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .welcome-modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: center;
+        }
+        
+        .welcome-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .welcome-modal-title {
+            color: #9b59b6;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .welcome-modal-text {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .welcome-modal-button {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+    
+    <!-- Enhanced Welcome Modal with Slides -->
+    <div id="welcomeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); z-index: 9999;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 12px; width: 90%; max-width: 650px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <span onclick="closeWelcomeModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999;">&times;</span>
+            
+            <!-- Slides Container -->
+            <div id="welcomeSlides">
+                <!-- Slide 1: Welcome -->
+                <div class="welcome-slide" data-slide="1" style="display: block;">
+                    <div style="margin-bottom: 30px;">
+                        <img src="https://placehold.co/120x120/9b59b6/FFFFFF?text=DANCE" alt="Dance Icon" style="border-radius: 60px;">
+                    </div>
+                    <h2 style="color: #9b59b6; margin-bottom: 20px; font-size: 28px;">Welcome to SongTrybe!</h2>
+                    <p style="margin-bottom: 15px; font-size: 18px;">Hello <span id="welcomeName"></span>,</p>
+                    <p style="margin-bottom: 25px; font-size: 18px; color: #444; line-height: 1.5;">
+                        We're excited to have you join us at SongTrybe! This dancer contract has been shared with you to formalize our working relationship.
+                    </p>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #9b59b6; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <button onclick="showWelcomeSlide(2)" style="background: #9b59b6; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Next</button>
+                </div>
+                
+                <!-- Slide 2: Who & Why -->
+                <div class="welcome-slide" data-slide="2" style="display: none;">
+                    <h2 style="color: #9b59b6; margin-bottom: 20px; font-size: 28px;">Who We Are & Why Dance</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <p style="margin-bottom: 15px; font-size: 18px; color: #444; line-height: 1.5;">
+                            <strong style="color: #9b59b6;">Who:</strong> SongTrybe is a platform connecting talented performers with opportunities in the entertainment industry across music videos, live shows, and events.
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 18px; color: #444; line-height: 1.5;">
+                            <strong style="color: #9b59b6;">Why Dance:</strong> As a dancer, your skills are in high demand for music videos, concerts, promotional events, and more. We help showcase your talent to the right audiences.
+                        </p>
+                        <p style="font-size: 18px; color: #444; line-height: 1.5;">
+                            This contract establishes our partnership to promote your dance portfolio and connect you with artists and producers seeking your specific dance style.
+                        </p>
+                    </div>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #9b59b6; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button onclick="showWelcomeSlide(1)" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Previous</button>
+                        <button onclick="showWelcomeSlide(3)" style="background: #9b59b6; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Benefits -->
+                <div class="welcome-slide" data-slide="3" style="display: none;">
+                    <h2 style="color: #9b59b6; margin-bottom: 20px; font-size: 28px;">Your Benefits</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #9b59b6; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Featured profile with your dance styles, video portfolio, and performance gallery</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #9b59b6; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Booking referrals for music videos, live shows, events, and commercial opportunities</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #9b59b6; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Exclusive notifications for high-profile dance opportunities and casting calls</p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="min-width: 30px; margin-right: 15px; color: #9b59b6; font-size: 24px;">✓</div>
+                            <p style="font-size: 18px; color: #444; line-height: 1.5;">Professional development resources and industry networking events</p>
+                        </div>
+                    </div>
+                    <div style="margin: 30px 0;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #ddd; border-radius: 50%; margin: 0 5px;"></span>
+                        <span style="display: inline-block; width: 12px; height: 12px; background-color: #9b59b6; border-radius: 50%; margin: 0 5px;"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button onclick="showWelcomeSlide(2)" style="background: #f0f0f0; color: #666; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Previous</button>
+                        <button onclick="closeWelcomeModal()" style="background: #9b59b6; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let canvas, ctx, isDrawing = false;
+        let completedSections = 0;
+
+        // Check for name parameter and show welcome modal if present
+        function checkForNameParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipientName = urlParams.get('name');
+            
+            if (recipientName) {
+                // Show welcome modal directly
+                document.getElementById('welcomeName').textContent = recipientName;
+                document.getElementById('welcomeModal').style.display = 'block';
+                
+                // This is a shared link - add a flag to the session
+                sessionStorage.setItem('isSharedLink', 'true');
+                
+                // Hide any navigation elements if they exist
+                const backButtons = document.querySelectorAll('a[href="index.html"], button[onclick*="index.html"]');
+                backButtons.forEach(button => {
+                    button.style.display = 'none';
+                });
+            }
+        }
+        
+        // Show welcome modal
+        function showWelcomeModal(recipientName) {
+            document.getElementById('welcomeName').textContent = recipientName;
+            const welcomeModal = document.getElementById('welcomeModal');
+            welcomeModal.style.display = 'flex';
+            console.log('Welcome modal should be visible now for:', recipientName);
+            
+            // Reset to first slide
+            showWelcomeSlide(1);
+        }
+        
+        // Navigate between welcome modal slides
+        function showWelcomeSlide(slideNumber) {
+            // Hide all slides
+            const slides = document.querySelectorAll('.welcome-slide');
+            slides.forEach(slide => {
+                slide.style.display = 'none';
+            });
+            
+            // Show the requested slide
+            const targetSlide = document.querySelector(`.welcome-slide[data-slide="${slideNumber}"]`);
+            if (targetSlide) {
+                targetSlide.style.display = 'block';
+            }
+        }
+        
+        // Close welcome modal
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSignatureCanvas();
+            updateProgress();
+            setTodayDate();
+            checkForNameParameter();
+            
+            // Add event listeners for form validation
+            document.getElementById('contractForm').addEventListener('input', validateForm);
+            document.getElementById('contractForm').addEventListener('change', validateForm);
+            document.getElementById('contractForm').addEventListener('submit', handleSubmit);
+        });
+
+        function initializeSignatureCanvas() {
+            canvas = document.getElementById('signatureCanvas');
+            ctx = canvas.getContext('2d');
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events
+            canvas.addEventListener('touchstart', startDrawing);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            validateForm();
+        }
+
+        function saveSignature() {
+            // In a real implementation, you would save the signature data
+            alert('Signature saved successfully!');
+        }
+
+        function toggleSection(sectionNum) {
+            const section = document.getElementById(`section${sectionNum}`);
+            const content = section.querySelector('.section-content');
+            const header = section.querySelector('.section-header');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                header.classList.remove('expanded');
+                section.classList.remove('active');
+            } else {
+                content.classList.add('expanded');
+                header.classList.add('expanded');
+                section.classList.add('active');
+            }
+        }
+
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('signatureDate').value = today;
+        }
+
+        function validateForm() {
+            const requiredFields = ['dancerName', 'email', 'phone', 'termsAccept', 'governingState', 'signatureDate', 'finalAccept'];
+            let completed = 0;
+            let total = requiredFields.length + 1; // +1 for signature
+
+            // Check required fields
+            requiredFields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                if (field && (field.value || field.checked)) {
+                    completed++;
+                }
+            });
+
+            // Check signature
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const hasSignature = imageData.data.some(channel => channel !== 0);
+            if (hasSignature) completed++;
+
+            // Update progress
+            const percentage = Math.round((completed / total) * 100);
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+
+            // Update step indicators
+            const steps = [25, 50, 75, 100];
+            steps.forEach((step, index) => {
+                const stepEl = document.getElementById(`step${index + 1}`);
+                if (percentage >= step) {
+                    stepEl.classList.add('completed');
+                    stepEl.classList.remove('active');
+                } else if (percentage >= (steps[index - 1] || 0)) {
+                    stepEl.classList.add('active');
+                    stepEl.classList.remove('completed');
+                } else {
+                    stepEl.classList.remove('active', 'completed');
+                }
+            });
+
+            // Enable/disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = percentage < 100;
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            // Generate and download PDF
+            generatePDF();
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('submitBtn').textContent = 'PDF Downloaded Successfully!';
+            document.getElementById('submitBtn').disabled = true;
+
+            setTimeout(() => {
+                alert('Your Songtrybe Dancer Agreement has been generated and downloaded as a PDF. Please save this document for your records.');
+            }, 1000);
+        }
+
+        function generatePDF() {
+            // Collect form data
+            const formData = {
+                dancerName: document.getElementById('dancerName').value,
+                stageName: document.getElementById('stageName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                experience: document.getElementById('experience').value,
+                governingState: document.getElementById('governingState').value,
+                signatureDate: document.getElementById('signatureDate').value,
+                signature: canvas.toDataURL(),
+                danceStyles: Array.from(document.querySelectorAll('input[name="danceStyle"]:checked')).map(cb => cb.value),
+                performanceTypes: Array.from(document.querySelectorAll('input[name="performanceType"]:checked')).map(cb => cb.value)
+            };
+
+            // Create PDF using jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Set font size and styles
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            
+            // Add title
+            doc.text('SONGTRYBE DANCER PARTICIPATION & MARKETING AGREEMENT', 105, 20, { align: 'center' });
+            
+            // Reset font for body text
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            
+            // Add effective date
+            doc.text(`Effective Date: ${formData.signatureDate}`, 20, 30);
+            
+            // Add parties section
+            doc.setFont('helvetica', 'bold');
+            doc.text('PARTIES:', 20, 40);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Dancer Name: ${formData.dancerName}`, 20, 45);
+            doc.text(`Stage/Performance Name: ${formData.stageName || 'N/A'}`, 20, 50);
+            doc.text(`Email: ${formData.email}`, 20, 55);
+            doc.text(`Phone: ${formData.phone}`, 20, 60);
+            doc.text(`Location: ${formData.location || 'N/A'}`, 20, 65);
+            doc.text(`Experience: ${formData.experience || 'N/A'}`, 20, 70);
+            doc.text(`Dance Styles: ${formData.danceStyles.length ? formData.danceStyles.join(', ') : 'N/A'}`, 20, 75);
+            doc.text(`Performance Types: ${formData.performanceTypes.length ? formData.performanceTypes.join(', ') : 'N/A'}`, 20, 80);
+            
+            doc.text(`This Agreement is made by and between Songtrybe Inc., a music technology and services`, 20, 90);
+            doc.text(`platform ("Songtrybe"), and ${formData.dancerName} ("Dancer"), collectively referred to as "Parties."`, 20, 95);
+            
+            // Add sections (we'll add more content with multiple pages)
+            let yPosition = 105;
+            const addSection = (title, content) => {
+                // Check if we need a new page
+                if (yPosition > 270) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                doc.setFont('helvetica', 'bold');
+                doc.text(title, 20, yPosition);
+                doc.setFont('helvetica', 'normal');
+                yPosition += 5;
+                
+                // Split content into multiple lines
+                const contentLines = doc.splitTextToSize(content, 170);
+                doc.text(contentLines, 20, yPosition);
+                yPosition += (contentLines.length * 5) + 5;
+            };
+            
+            // Add contract sections
+            addSection('1. PURPOSE', 'This Agreement outlines the collaboration between Songtrybe and the professional dancer for performance bookings, marketing, and entertainment industry visibility. It provides mutual value through exposure, performance opportunities, and co-branded promotional activities within the dance and entertainment industry.');
+            
+            addSection('2. SERVICES PROVIDED BY SONGTRYBE', 'Songtrybe will provide the following benefits at no cost:\n\u2022 Dancer Profile Showcase: Featured profile with dance styles, video portfolio, and performance gallery.\n\u2022 Entertainment Industry Marketing: Targeted campaigns to music artists, video producers, event planners, and venues.\n\u2022 Performance Opportunities: Booking referrals for live shows, music videos, events, and backup dancing gigs.\n\u2022 Dancer Network Access: Exclusive notifications for high-profile dance opportunities and casting calls.\n\u2022 Brand Collaboration: Partnership opportunities with dancewear brands, fitness companies, and entertainment venues.\n\u2022 Performance Analytics: Tracking of bookings, audience engagement, and performance feedback data.\n\u2022 Professional Development: Access to choreography resources, audition tips, and industry networking events.\n\u2022 Video Portfolio Support: Assistance with creating and showcasing professional dance reels and performance videos.');
+            
+            addSection('3. USE OF NAME, LIKENESS, AND CONTENT', 'The Dancer grants Songtrybe a royalty-free, worldwide, non-exclusive right to:\n\u2022 Display the Dancer\'s name, image, dance styles, performance videos, and professional branding on Songtrybe\'s platforms.\n\u2022 Use the Dancer\'s likeness and performance footage in marketing materials targeting entertainment industry professionals.\n\u2022 Feature submitted content (dance reels, performance videos, photos) across Songtrybe\'s digital channels and promotional campaigns.\n\u2022 Include Dancer\'s credentials, testimonials, and performance history in industry marketing materials.\n\u2022 Create promotional content featuring the Dancer\'s performances for platform marketing purposes.');
+            
+            addSection('4. REFERRAL & INCENTIVE PROGRAM', 'Dancer Referrals: Dancers who refer other performers, choreographers, venues, or entertainment professionals that join Songtrybe may receive bonuses (e.g., $60 per successful referral or priority booking status).\nFeatured Artist Opportunities: Top-performing dancers may be featured in Songtrybe promotional campaigns, dance showcases, or branded entertainment content.\nPerformance Incentives: Dancers with exceptional client feedback and booking success may receive enhanced promotional support and premium profile features.\nCollaboration Bonuses: Additional compensation opportunities for dancers participating in Songtrybe\'s branded events or promotional videos.');
+            
+            // Add more sections
+            addSection('5. EXPECTATIONS & RESPONSIBILITIES', 'Dancers agree to maintain current and accurate profiles including availability, dance styles, and portfolio content.\nSongtrybe agrees to use reasonable efforts to promote listed dancers but does not guarantee any specific number of bookings or performance opportunities.\nDancers must maintain professional performance standards including punctuality, appropriate attire, rehearsal attendance, and adherence to choreography requirements.\nDancers agree to provide high-quality performances and maintain positive relationships with clients, venues, and fellow performers.\nDancers must respect venue policies, safety requirements, and performance guidelines at all booked events.');
+            
+            addSection('6. OWNERSHIP & RIGHTS', 'Dancer retains all ownership rights to their original choreography, performance concepts, and personal branding materials.\nSongtrybe has limited promotional rights for submitted performance videos and dance content for the term of this Agreement.\nPerformance recordings created during Songtrybe-facilitated events may be used by both parties for promotional purposes.\nClient relationships developed through Songtrybe referrals remain accessible to both parties for future collaboration opportunities.');
+            
+            addSection('7. TERM & TERMINATION', 'This Agreement is effective upon signature and remains active unless terminated by either party with 14 days written notice.\nUpon termination: Songtrybe will remove the Dancer\'s profile and stop using their content in new marketing campaigns. Previously published performance content may remain for historical or platform integrity purposes.\nConfirmed performances: Any booked performances at time of termination will be honored by both parties to maintain professional commitments.\nPortfolio content: Dancer may request removal of specific performance videos or promotional materials within 30 days of termination.');
+            
+            addSection('8. NON-CIRCUMVENTION', 'Dancer agrees not to bypass Songtrybe in any direct deals resulting from Songtrybe-originated client introductions, casting opportunities, or performance referrals without prior written consent.\nFor any direct bookings resulting from Songtrybe referrals, Dancer agrees to notify Songtrybe and optionally share a 15% commission if the performance booking was facilitated through the platform.\nPre-existing relationships: Clients and venues with established relationships prior to joining Songtrybe are exempt from this clause.\nCollaborative projects: Multi-dancer performances arranged through Songtrybe are subject to platform coordination requirements.');
+            
+            addSection('9. GOVERNING LAW', `This Agreement shall be governed by and construed in accordance with the laws of the State of ${formData.governingState || '____________'}, without regard to its conflict of laws principles.`);
+            
+            // Add signature section
+            if (yPosition > 200) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('SIGNATURES:', 20, yPosition);
+            yPosition += 10;
+            
+            doc.text('SONGTRYBE, LLC', 20, yPosition);
+            yPosition += 20;
+            doc.text('By: _________________________', 20, yPosition);
+            yPosition += 10;
+            doc.text('Name: _______________________', 20, yPosition);
+            yPosition += 10;
+            doc.text('Title: ________________________', 20, yPosition);
+            yPosition += 10;
+            doc.text(`Date: ${formData.signatureDate}`, 20, yPosition);
+            yPosition += 20;
+            
+            doc.text('DANCER', 20, yPosition);
+            yPosition += 10;
+            
+            // Add signature image
+            if (canvas.toDataURL() !== document.createElement('canvas').toDataURL()) {
+                try {
+                    doc.addImage(formData.signature, 'PNG', 20, yPosition, 50, 20);
+                } catch (e) {
+                    console.error('Error adding signature to PDF:', e);
+                }
+            }
+            
+            yPosition += 25;
+            doc.text(`Name: ${formData.dancerName}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Date: ${formData.signatureDate}`, 20, yPosition);
+            
+            // Save the PDF
+            doc.save(`Songtrybe_Dancer_Agreement_${formData.dancerName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
+        function generatePDFContent(data) {
+            return `
+SONGTRYBE DANCER PARTICIPATION & MARKETING AGREEMENT
+Effective Date: ${data.signatureDate}
+
+PARTIES:
+Dancer Name: ${data.dancerName}
+Stage/Performance Name: ${data.stageName || 'N/A'}
+Email: ${data.email}
+Phone: ${data.phone}
+Location: ${data.location || 'N/A'}
+Experience: ${data.experience || 'N/A'}
+Dance Styles: ${data.danceStyles.length ? data.danceStyles.join(', ') : 'N/A'}
+Performance Types: ${data.performanceTypes.length ? data.performanceTypes.join(', ') : 'N/A'}
+
+This Agreement is made by and between Songtrybe Inc., a music technology and services platform ("Songtrybe"), and ${data.dancerName} ("Dancer"), collectively referred to as "Parties."
+
+1. PURPOSE
+This Agreement outlines the collaboration between Songtrybe and the professional dancer for performance bookings, marketing, and entertainment industry visibility. It provides mutual value through exposure, performance opportunities, and co-branded promotional activities within the dance and entertainment industry.
+
+2. SERVICES PROVIDED BY SONGTRYBE
+Songtrybe will provide the following benefits at no cost:
+
+• Dancer Profile Showcase: Featured profile with dance styles, video portfolio, and performance gallery.
+• Entertainment Industry Marketing: Targeted campaigns to music artists, video producers, event planners, and venues.
+• Performance Opportunities: Booking referrals for live shows, music videos, events, and backup dancing gigs.
+• Dancer Network Access: Exclusive notifications for high-profile dance opportunities and casting calls.
+• Brand Collaboration: Partnership opportunities with dancewear brands, fitness companies, and entertainment venues.
+• Performance Analytics: Tracking of bookings, audience engagement, and performance feedback data.
+• Professional Development: Access to choreography resources, audition tips, and industry networking events.
+• Video Portfolio Support: Assistance with creating and showcasing professional dance reels and performance videos.
+
+3. USE OF NAME, LIKENESS, AND CONTENT
+The Dancer grants Songtrybe a royalty-free, worldwide, non-exclusive right to:
+• Display the Dancer's name, image, dance styles, performance videos, and professional branding on Songtrybe's platforms.
+• Use the Dancer's likeness and performance footage in marketing materials targeting entertainment industry professionals.
+• Feature submitted content (dance reels, performance videos, photos) across Songtrybe's digital channels and promotional campaigns.
+• Include Dancer's credentials, testimonials, and performance history in industry marketing materials.
+• Create promotional content featuring the Dancer's performances for platform marketing purposes.
+
+4. REFERRAL & INCENTIVE PROGRAM
+Dancer Referrals: Dancers who refer other performers, choreographers, venues, or entertainment professionals that join Songtrybe may receive bonuses (e.g., $60 per successful referral or priority booking status).
+Featured Artist Opportunities: Top-performing dancers may be featured in Songtrybe promotional campaigns, dance showcases, or branded entertainment content.
+Performance Incentives: Dancers with exceptional client feedback and booking success may receive enhanced promotional support and premium profile features.
+Collaboration Bonuses: Additional compensation opportunities for dancers participating in Songtrybe's branded events or promotional videos.
+
+5. EXPECTATIONS & RESPONSIBILITIES
+• Dancers agree to maintain current and accurate profiles including availability, dance styles, and portfolio content.
+• Songtrybe agrees to use reasonable efforts to promote listed dancers but does not guarantee any specific number of bookings or performance opportunities.
+• Dancers must maintain professional performance standards including punctuality, appropriate attire, rehearsal attendance, and adherence to choreography requirements.
+• Dancers agree to provide high-quality performances and maintain positive relationships with clients, venues, and fellow performers.
+• Dancers must respect venue policies, safety requirements, and performance guidelines at all booked events.
+
+6. OWNERSHIP & RIGHTS
+• Dancer retains all ownership rights to their original choreography, performance concepts, and personal branding materials.
+• Songtrybe has limited promotional rights for submitted performance videos and dance content for the term of this Agreement.
+• Performance recordings created during Songtrybe-facilitated events may be used by both parties for promotional purposes.
+• Client relationships developed through Songtrybe referrals remain accessible to both parties for future collaboration opportunities.
+
+7. TERM & TERMINATION
+This Agreement is effective upon signature and remains active unless terminated by either party with 14 days' written notice.
+Upon termination: Songtrybe will remove the Dancer's profile and stop using their content in new marketing campaigns. Previously published performance content may remain for historical or platform integrity purposes.
+Confirmed performances: Any booked performances at time of termination will be honored by both parties to maintain professional commitments.
+Portfolio content: Dancer may request removal of specific performance videos or promotional materials within 30 days of termination.
+
+8. NON-CIRCUMVENTION
+• Dancer agrees not to bypass Songtrybe in any direct deals resulting from Songtrybe-originated client introductions, casting opportunities, or performance referrals without prior written consent.
+• For any direct bookings resulting from Songtrybe referrals, Dancer agrees to notify Songtrybe and optionally share a 15% commission if the performance booking was facilitated through the platform.
+• Pre-existing relationships: Clients and venues with established relationships prior to joining Songtrybe are exempt from this clause.
+• Collaborative projects: Multi-dancer performances arranged through Songtrybe are subject to platform coordination requirements.
+
+9. GOVERNING LAW
+This Agreement shall be governed and construed in accordance with the laws of the State of ${data.governingState}.
+Any disputes arising from this agreement will be resolved through binding arbitration in the selected state, with consideration for the unique nature of performance contracts and entertainment industry standards.
+
+DIGITAL SIGNATURE:
+Dancer Name: ${data.dancerName}
+Date: ${data.signatureDate}
+Digital Signature: [Signature captured and attached]
+
+By signing this agreement digitally, ${data.dancerName} acknowledges reading, understanding, and agreeing to all 9 sections and terms and conditions outlined above.
+
+Agreement completed on: ${new Date().toLocaleString()}
+
+SONGTRYBE INC.
+This agreement has been digitally executed and is legally binding.
+            `;
+        }
+
+        function updateProgress() {
+            validateForm();
+        }
+    </script>
+</body>
+</html>
+                            
